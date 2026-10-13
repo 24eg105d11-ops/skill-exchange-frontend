@@ -3,7 +3,11 @@
  * Automatically injects the JWT token from localStorage into Authorization headers.
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+const envUrl = import.meta.env.VITE_API_BASE_URL;
+const rawUrl = (envUrl && !envUrl.includes('<') && !envUrl.includes('your-render'))
+  ? envUrl
+  : 'https://skill-exchange-backend-8n7d.onrender.com';
+const API_BASE_URL = rawUrl.replace(/\/+$/, '');
 
 export async function apiRequest(endpoint, options = {}) {
   const token = localStorage.getItem('token');
